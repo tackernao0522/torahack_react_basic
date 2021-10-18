@@ -96,3 +96,11 @@ return (
         <p>JSXの基礎文法を解説します。</p>
     </>
 )
+
+## create-react-appとは (コマンド: npx create-react-app react-basic)
+
+・最も簡単にReactの開発寛容を構築できる
+・本来のReact環境構築は以下の設定が必要
+    トランスパイラのBable
+    バンドラーのWebpack
+    ->Reactの初学者がやるべきではない!
