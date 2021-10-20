@@ -4,6 +4,7 @@
 2. HTMLライクな記述 + JavaScriptの構文が使える
 3. JSXは最終的にReact要素を生成する
 
+```
 const BlueButton = () => {
     return (
         <Button className={'btn-blue'}>
@@ -11,6 +12,8 @@ const BlueButton = () => {
         </Button>
     )
 }
+```
+
 ・コンパイル時
   1. JSX->React.createElementの式に変換
   2. React要素を生成
@@ -19,11 +22,13 @@ const BlueButton = () => {
 ->JSXと使うことで楽に記述できる
 
 # JSXを使わない場合 React.createElementはReact要素を生成する式
+```
 React.createElement(
     'button',
     {className: 'btn-blue'},
     'click me!'
 )
+```
 
 ## JSXの基礎文法①
 
@@ -33,6 +38,7 @@ React.createElement(
 classはclassNameと記述する
 3. 拡張子は.jsでも.jsxでも良い
 
+```
 import React from 'react';
 
 const BlueButton = () => {
@@ -44,6 +50,7 @@ const BlueButton = () => {
 }
 
 export default BlueButton;
+```
 
 ## JSXの基礎文法②
 
@@ -51,6 +58,7 @@ export default BlueButton;
 2. {}内で変数を扱える
 3. 閉じタグが必要
 
+```
 import React from 'react';
 
 const Thumbnail = () => {
@@ -66,6 +74,7 @@ const Thumbnail = () => {
 }
 
 export default Thumbnail;
+```
 
 ## 特殊なJSXの構文
 
@@ -76,26 +85,32 @@ HTMLタグとして出力されない
 3. React.Fragmentは省略形で書ける
 
 # Error
+```
 return (
     <p>新・日本一わかりやすいReact入門</p>
     <p>JSXの基礎文法を解説します。</p>
 )
+```
 
 # OK
+```
 return (
     <React.Fragmant>
         <p>新・日本一わかりやすいReact入門</p>
         <p>JSXの基礎文法を解説します。</p>
     </React.Fragmant>
 )
+```
 
 # OK
+```
 return (
     <>
         <p>新・日本一わかりやすいReact入門</p>
         <p>JSXの基礎文法を解説します。</p>
     </>
 )
+```
 
 ## create-react-appとは (コマンド: npx create-react-app react-basic)
 
@@ -104,3 +119,176 @@ return (
     トランスパイラのBable
     バンドラーのWebpack
     ->Reactの初学者がやるべきではない!
+
+## コンポーネントとは
+
+・見た目と機能を持つUI部品
+・コンポーネントを組み合わせてページを作る
+・大きく2種類のコンポーネントに分かれる
+1. class Component(クラスコンポーネント)
+2. Functional Component(関数コンポーネント)
+
+(例)
+### Class Component
+```
+import React, {Component} from 'react';
+
+class Button extends Component {
+    render() {
+        return <button>Say, {this.props.hello}</button>
+    }
+}
+
+export default Button;
+```
+
+### Functional Component(記述量が少ない, 昔はClassでないとできないことがあった、　React Hooksの登場->同じ機能が使える)
+```
+import React from 'react';
+
+const Button = (props) => {
+    return <button>Say, {props.hello}</button>;
+};
+
+export default Button;
+```
+
+## なぜコンポーネントを使うのか
+
+・再利用する為
+同じ記述を何度もする必要がない
+
+・コードの見通しを良くする為
+1コンポーネント = 1ファイル
+別ファイルに分けることで読みやすくなる
+
+・変更に強くする為
+修正は一箇所だけでOK
+
+## コンポーネントの基本的な使い方
+
+### App.jsx (親)
+```
+import Article from "./components/Article";
+
+function App() {
+    return (
+        <div>
+            <Article />
+        </div>
+    );
+}
+
+export default App;
+```
+
+### components/Article.jsx (子)
+```
+const Article = () => {
+    return (
+        <h2>こんにちは</h2>
+    );
+};
+
+export default Article;
+```
+
+・ファイル名は大文字
+・子コンポーネントでexport
+・親コンポーネントでimport
+
+## propsでデータを受け渡す
+
+### App.jsx
+```
+import Article from "./components/Article";
+
+function App() {
+    return (
+        <div>
+            <Article
+                title={'新・日本一わかりやすいReact入門'}
+                content={'今日のトピックはpropsについて。'}
+            />
+    );
+}
+
+export default App;
+```
+
+### components/Article.jsx
+```
+const Article = (props) => {
+    return (
+        <div>
+            <h2>{props.title}</h2>
+            <p>{props.conent}</p>
+        </div>
+    );
+};
+
+export default Article;
+```
+
+・子コンポーネントの引数にpropsを指定する
+・親から子にデータを渡す
+
+## propsで受け渡せるデータ
+
+・propsのデータは{}に記述
+・文字列、数値、真偽値、配列、オブジェクト、日付などなんでもOK
+・変数を渡すことも可能
+・文字列は{}なしでもOK
+
+```
+import Article from "./components/Article";
+
+function App() {
+    const authorName = 'Torahack'
+    const now = new Date()
+    return (
+        <div>
+            <Article
+                title={'新・日本一わかりやすいReact入門'}
+                content='今日のトピックはpropsについて。'
+                order={3}
+                isPublishd={true}
+                authorName={authorName}
+                updatedAt={now}
+            />
+        </div>
+    );
+}
+
+export default App;
+```
+
+### コンポーネントの再利用
+
+・同じコンポーネントをいくつも呼び出すことができる
+・配列データをmap()メソッドで処理するのが一般的
+
+```
+import Article from "./components/Article";
+
+function App() {
+    return (
+        <div>
+            <Article
+                title={'新・日本一わかりやすいReact入門4'}
+                content={'今日のトピックはpropsについて。'}
+            />
+            <Article
+                title={'新・日本一わかりやすいReact入門5}
+                content={'今日のトピックはuseStateについて。'}
+            />
+            <Article
+                title={'新・日本一わかりやすいReact入門6}
+                content={'今日のトピックはuseEffectについて。'}
+            />
+        </div>
+    )
+}
+
+export default App;
+```
