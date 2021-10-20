@@ -292,3 +292,124 @@ function App() {
 
 export default App;
 ```
+
+## コンポーネントを分けよう
+
+・1ファイル = 1コンポーネントにする
+・なぜコンポーネントを分けるのか？
+  責務を明確にする（何のためのパーツなのか）
+  大規模アプリでも管理しやすくするため
+  再利用するため
+
+## JavaScriptのモジュール機能
+
+・プログラムをモジュールという単位に分割する
+・原則は1ファイル = 1モジュール
+・必要なときに必要なモジュールのみ読み込む
+
+```
+import Article from "./components/Article";
+
+function App() {
+    return (
+        <Article
+            title={'新・日本一わかりやすいReact入門基礎編5'}
+            content={'importとexportを使いこなそう'}
+        />
+    );
+}
+```
+
+## default export (名前なしexport)
+
+```
+// アロー関数のdefault export
+const Title = (props) => {
+    return <h2>{props.title}</h2>
+};
+export default Title;
+```
+
+```
+// 名前付き関数のdefault export
+export default function Title(props) {
+    return <h2>{props.title}</h2>
+};
+```
+
+・推奨されるexport方法
+・1ファイル = 1export
+・1度宣言したアロー関数をdefault export
+・名前付き関数宣言と同時にdefault export
+
+## default import (名前なしimport)
+
+・default exportしたモジューつをそのまま読み込む
+・importモジュール名 from 'ファイルパス'
+
+```
+// Article.jsx(export元)
+const Article = (props) => {
+    return (
+        <div>
+            <h2>{props.title}</h2>
+            <p>{props.content}</p>
+        </div>
+    );
+};
+export default Article;
+```
+
+```
+// App.jsx(import先)
+import Article from "./components/Article";
+
+function App() {
+    return (
+        <Article
+            title={'新・日本一わかりやすいReact入門'}
+            content={'importとexportを使いこなそう'}
+        />
+    );
+}
+```
+
+## 名前付きexport
+
+```:helper.js
+export const addTax = (price) => {
+    return Math.floor(price * 1.1);
+}
+export const getWild = () => {
+    console.log('Get wild and touch);
+}
+
+```:index.js
+export {default as Article} from './Article';
+export {default as Content} from './Content';
+export {default as Title} from './Title'; // defaultという名前のモジューつをTitleという名前でexport
+```
+
+・1ファイルから複数モジュールをexportしたいとき
+・Reactではエントリポイントでよく使う
+・エントリポイントでは別名exportも併用する
+
+## 名前付きimport
+
+```
+import {Content, Title} from "./index";
+
+const Article = (props) => {
+    return (
+        <div>
+            <Title title={props.title} />
+            <Content content={props.content} />
+        </div>
+    );
+};
+
+export default Article;
+```
+
+・1ファイルから複数モジューつを読み込む
+・エントリポイントから複数コンポーネントを読み込む
