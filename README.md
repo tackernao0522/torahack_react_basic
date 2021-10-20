@@ -114,19 +114,19 @@ return (
 
 ## create-react-appとは (コマンド: npx create-react-app react-basic)
 
-・最も簡単にReactの開発寛容を構築できる
-・本来のReact環境構築は以下の設定が必要
++ 最も簡単にReactの開発寛容を構築できる
++ 本来のReact環境構築は以下の設定が必要
     トランスパイラのBable
     バンドラーのWebpack
     ->Reactの初学者がやるべきではない!
 
 ## コンポーネントとは
 
-・見た目と機能を持つUI部品
-・コンポーネントを組み合わせてページを作る
-・大きく2種類のコンポーネントに分かれる
-1. class Component(クラスコンポーネント)
-2. Functional Component(関数コンポーネント)
++ 見た目と機能を持つUI部品
++ コンポーネントを組み合わせてページを作る
++ 大きく2種類のコンポーネントに分かれる
+① class Component(クラスコンポーネント)
+② Functional Component(関数コンポーネント)
 
 (例)
 ### Class Component
@@ -155,14 +155,14 @@ export default Button;
 
 ## なぜコンポーネントを使うのか
 
-・再利用する為
++ 再利用する為
 同じ記述を何度もする必要がない
 
-・コードの見通しを良くする為
++ コードの見通しを良くする為
 1コンポーネント = 1ファイル
 別ファイルに分けることで読みやすくなる
 
-・変更に強くする為
++ 変更に強くする為
 修正は一箇所だけでOK
 
 ## コンポーネントの基本的な使い方
@@ -193,9 +193,9 @@ const Article = () => {
 export default Article;
 ```
 
-・ファイル名は大文字
-・子コンポーネントでexport
-・親コンポーネントでimport
++ ファイル名は大文字
++ 子コンポーネントでexport
++ 親コンポーネントでimport
 
 ## propsでデータを受け渡す
 
@@ -230,15 +230,15 @@ const Article = (props) => {
 export default Article;
 ```
 
-・子コンポーネントの引数にpropsを指定する
-・親から子にデータを渡す
++ 子コンポーネントの引数にpropsを指定する
++ 親から子にデータを渡す
 
 ## propsで受け渡せるデータ
 
-・propsのデータは{}に記述
-・文字列、数値、真偽値、配列、オブジェクト、日付などなんでもOK
-・変数を渡すことも可能
-・文字列は{}なしでもOK
++ propsのデータは{}に記述
++ 文字列、数値、真偽値、配列、オブジェクト、日付などなんでもOK
++ 変数を渡すことも可能
++ 文字列は{}なしでもOK
 
 ```
 import Article from "./components/Article";
@@ -265,8 +265,8 @@ export default App;
 
 ### コンポーネントの再利用
 
-・同じコンポーネントをいくつも呼び出すことができる
-・配列データをmap()メソッドで処理するのが一般的
++ 同じコンポーネントをいくつも呼び出すことができる
++ 配列データをmap()メソッドで処理するのが一般的
 
 ```
 import Article from "./components/Article";
@@ -295,8 +295,8 @@ export default App;
 
 ## コンポーネントを分けよう
 
-・1ファイル = 1コンポーネントにする
-・なぜコンポーネントを分けるのか？
++ 1ファイル = 1コンポーネントにする
++ なぜコンポーネントを分けるのか？
   責務を明確にする（何のためのパーツなのか）
   大規模アプリでも管理しやすくするため
   再利用するため
@@ -337,15 +337,15 @@ export default function Title(props) {
 };
 ```
 
-・推奨されるexport方法
-・1ファイル = 1export
-・1度宣言したアロー関数をdefault export
-・名前付き関数宣言と同時にdefault export
++ 推奨されるexport方法
++ 1ファイル = 1export
++ 1度宣言したアロー関数をdefault export
++ 名前付き関数宣言と同時にdefault export
 
 ## default import (名前なしimport)
 
-・default exportしたモジューつをそのまま読み込む
-・importモジュール名 from 'ファイルパス'
++ default exportしたモジューつをそのまま読み込む
++ importモジュール名 from 'ファイルパス'
 
 ```
 // Article.jsx(export元)
@@ -390,9 +390,9 @@ export {default as Content} from './Content';
 export {default as Title} from './Title'; // defaultという名前のモジューつをTitleという名前でexport
 ```
 
-・1ファイルから複数モジュールをexportしたいとき
-・Reactではエントリポイントでよく使う
-・エントリポイントでは別名exportも併用する
++ 1ファイルから複数モジュールをexportしたいとき
++ Reactではエントリポイントでよく使う
++ エントリポイントでは別名exportも併用する
 
 ## 名前付きimport
 
