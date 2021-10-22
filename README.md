@@ -297,8 +297,8 @@ export default App;
 
 + 1ファイル = 1コンポーネントにする
 + なぜコンポーネントを分けるのか？
-  責務を明確にする（何のためのパーツなのか）
-  大規模アプリでも管理しやすくするため
+  責務を明確にする（何のためのパーツなのか）<br>
+  大規模アプリでも管理しやすくするため <br>
   再利用するため
 
 ## JavaScriptのモジュール機能
@@ -376,7 +376,8 @@ function App() {
 
 ## 名前付きexport
 
-```:helper.js
+```
+helper.js
 export const addTax = (price) => {
     return Math.floor(price * 1.1);
 }
@@ -413,3 +414,101 @@ export default Article;
 
 + 1ファイルから複数モジューつを読み込む
 + エントリポイントから複数コンポーネントを読み込む
+
+## コンポーネントの状態を管理
+
+### Hooksとは
+
++ クラスコンポーネントでしか使えなかったが...
+  コンポーネント内で状態を管理するstate <br>
+  コンポーネントの時間の流れに基づくライフサイクル <br>
+
++ __Hooks__により関数コンポーネントでも使えるようになった
++ __Hooks__ = クラスコンポーネントの機能に接続する
+
+## なぜstateを使うのか
+
++ Reactコンポーネント内の値を書き換えたい...
+  コンポーネント内の要素をDOMで直接書き換える X<br>
+  新しい値を使って再描画(再レンダリング)させる ◯<br>
+
++ Reactコンポーネントが再描画するきっかけは？
+  __state__が変更されたとき<br>
+  __props__が変更されたとき
+
+## useStateの使い方
+
+1. useStateによるstateの宣言
+```
+const [state, setState] = useState(initialize);
+// state = 現在の状態 setState = 更新関数 initialize = 初期値
+```
+
+2. stateの更新
+```
+setState(newState)
+// setState = 更新関数 newState = 新しい値
+```
+
+3. 具体例
+```
+const [message, setMessage] = useState('Torahack is cool');
+const [likes, setLikes] = useState(0);
+const [isPublished, setIsPublished] = useState(false);
+setIsPublished(true);
+```
+
+## propsとstateの違い
+
++ 両者ともに再描画のきっかけになるが...
+  propsは引数のようにコンポーネントに渡される値<br>
+  stateはコンポーネントの内部で宣言・制御される値
+
+## stateをpropsに渡す
+```
+const Article = (props) => {
+    const [isPublished, setIsPublished] = useState(false)
+    const publishArticle = () => {
+        setIsPublished(true)
+    }
+    return (
+        <div>
+            <Title title={props.title} />
+            <Content content={props.content} />
+            <PublishButton isPublished={isPublished} onClick={publishArticle} />
+        </div>
+    );
+};
+```
+
++ 更新関数はそのままpropsとして渡さず関数化する
++ 関数をpropsに渡すときは注意する
+
+## stateをpropsに渡す
+```
+const PublishButton = (props) => {
+    return (
+        <button onClick={() => props.onClick()}>
+            公開状態: {props.isPublished.toString()}
+        </button>
+    )
+}
+export default PublishButton;
+```
++ props.conClick)()はpublishArticle()
++ HTMLのbuttonが持つonClickイベントに渡す
+
+## propsへ関数を渡す際の注意点
+
+### OKな関数の渡し方
+```
+<PublishButton isPublished={isPublished} onClick={publishArticle} />
+<PublishButton isPublished={isPublished} onClick={() => publishArticle()} />
+```
+
+### NGな関数の渡し方(無限レンダリングが起きる)
+```
+<PublishButton isPublished={isPublished} onClick={publishArticle()} />
+```
++ コールバック関数か関数自体を渡す ◯
++ propsに渡すときに関数を実行しない x
