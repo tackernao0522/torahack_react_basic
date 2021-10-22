@@ -296,7 +296,7 @@ export default App;
 ## コンポーネントを分けよう
 
 + 1ファイル = 1コンポーネントにする
-+ なぜコンポーネントを分けるのか？
++ なぜコンポーネントを分けるのか？<br>
   責務を明確にする（何のためのパーツなのか）<br>
   大規模アプリでも管理しやすくするため <br>
   再利用するため
@@ -385,7 +385,8 @@ export const getWild = () => {
     console.log('Get wild and touch);
 }
 
-```:index.js
+```
+index.js
 export {default as Article} from './Article';
 export {default as Content} from './Content';
 export {default as Title} from './Title'; // defaultという名前のモジューつをTitleという名前でexport
@@ -419,7 +420,7 @@ export default Article;
 
 ### Hooksとは
 
-+ クラスコンポーネントでしか使えなかったが...
++ クラスコンポーネントでしか使えなかったが...<br>
   コンポーネント内で状態を管理するstate <br>
   コンポーネントの時間の流れに基づくライフサイクル <br>
 
@@ -428,11 +429,11 @@ export default Article;
 
 ## なぜstateを使うのか
 
-+ Reactコンポーネント内の値を書き換えたい...
++ Reactコンポーネント内の値を書き換えたい...<br>
   コンポーネント内の要素をDOMで直接書き換える X<br>
   新しい値を使って再描画(再レンダリング)させる ◯<br>
 
-+ Reactコンポーネントが再描画するきっかけは？
++ Reactコンポーネントが再描画するきっかけは？<br>
   __state__が変更されたとき<br>
   __props__が変更されたとき
 
@@ -460,7 +461,7 @@ setIsPublished(true);
 
 ## propsとstateの違い
 
-+ 両者ともに再描画のきっかけになるが...
++ 両者ともに再描画のきっかけになるが...<br>
   propsは引数のようにコンポーネントに渡される値<br>
   stateはコンポーネントの内部で宣言・制御される値
 
