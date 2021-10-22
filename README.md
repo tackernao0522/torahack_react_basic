@@ -303,9 +303,9 @@ export default App;
 
 ## JavaScriptのモジュール機能
 
-・プログラムをモジュールという単位に分割する
-・原則は1ファイル = 1モジュール
-・必要なときに必要なモジュールのみ読み込む
++ プログラムをモジュールという単位に分割する
++ 原則は1ファイル = 1モジュール
++ 必要なときに必要なモジュールのみ読み込む
 
 ```
 import Article from "./components/Article";
@@ -384,6 +384,7 @@ export const addTax = (price) => {
 export const getWild = () => {
     console.log('Get wild and touch);
 }
+```
 
 ```
 index.js
@@ -440,18 +441,21 @@ export default Article;
 ## useStateの使い方
 
 1. useStateによるstateの宣言
+
 ```
 const [state, setState] = useState(initialize);
 // state = 現在の状態 setState = 更新関数 initialize = 初期値
 ```
 
 2. stateの更新
+
 ```
 setState(newState)
 // setState = 更新関数 newState = 新しい値
 ```
 
 3. 具体例
+
 ```
 const [message, setMessage] = useState('Torahack is cool');
 const [likes, setLikes] = useState(0);
@@ -466,6 +470,7 @@ setIsPublished(true);
   stateはコンポーネントの内部で宣言・制御される値
 
 ## stateをpropsに渡す
+
 ```
 const Article = (props) => {
     const [isPublished, setIsPublished] = useState(false)
@@ -486,6 +491,7 @@ const Article = (props) => {
 + 関数をpropsに渡すときは注意する
 
 ## stateをpropsに渡す
+
 ```
 const PublishButton = (props) => {
     return (
@@ -502,14 +508,17 @@ export default PublishButton;
 ## propsへ関数を渡す際の注意点
 
 ### OKな関数の渡し方
+
 ```
 <PublishButton isPublished={isPublished} onClick={publishArticle} />
 <PublishButton isPublished={isPublished} onClick={() => publishArticle()} />
 ```
 
 ### NGな関数の渡し方(無限レンダリングが起きる)
+
 ```
 <PublishButton isPublished={isPublished} onClick={publishArticle()} />
 ```
+
 + コールバック関数か関数自体を渡す ◯
 + propsに渡すときに関数を実行しない x
