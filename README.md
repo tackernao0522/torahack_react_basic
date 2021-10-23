@@ -522,3 +522,83 @@ export default PublishButton;
 
 + コールバック関数か関数自体を渡す ◯
 + propsに渡すときに関数を実行しない x
+
+## 頻出するuseStateのケース３選
+
+```
+import React, {useState} from 'react';
+
+const TextInput = () => {
+    const [name, setName] = useState('');
+
+    const handleName = (event) => {
+        setName(event.target.value);
+    }
+
+    return (
+        <input
+            onChange={(event) => handleName(event)} //(event)はonChangeイベントの戻り値
+            type={'text'}
+            value={name}
+        />
+    );
+};
+```
+
++ 入力フォームでよく使う<br>
++ onChangeイベントでhandleName関数に渡す<br>
++ handleName関数のパラメータであるeventを更新関数に渡す<br>
+
+## prevStateを活用する
+
++ useStateの更新関数で使える特殊なprevState<br>
++ prevStateは更新前のstate<br>
++ prevStateに変更を加えてreturn<br>
+
+```
+import React, {useState} from 'react';
+
+const Counter = () => {
+    const [count, setCount] = useState(0)
+    const countUp = () => {
+        setCount(prevState => prevState + 1)
+    }
+    const countDown = () => {
+        setCount(prevState => prevState - 1)
+    }
+    retun (
+        <div>
+            <p>現在のカウント数: {count}</p>
+            <button onClick={countUp}>up</button>
+            <button onClick={countDown}>down</button>
+        </div>
+    );
+};
+
+export default Counter;
+```
+
+## ON/OFFを切り替えるボタン
+
++ prevStateで受け取った値を!で反転してreturnする<br>
++ 三項演算子によってopenがtrue/falseで表示を切り替える<br>
+
+```
+import React, {useState} from 'react;
+
+const ToggleButton = () => {
+    const [open, setOpen] = useState(false):
+
+    const toggle = () => {
+        setOpen(prevState => !prevState);
+    }
+
+    return (
+        <button>
+            {open ? 'OPEN' : 'CLOSE'}
+        </button>
+    );
+};
+
+export default ToggleButton;
+```
