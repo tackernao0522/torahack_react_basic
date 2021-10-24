@@ -602,3 +602,124 @@ const ToggleButton = () => {
 
 export default ToggleButton;
 ```
+
+## ライフサイクルとは
+
++ コンポーネントが生まれてから破棄されるまでの時間の流れ<br>
++ ライフサイクルメソッドを使うと、時点に応じた処理を実行できる<br>
++ Class Component時代は以下の3メソッドが頻出だった<br>
+  componentDidMount()<br>
+  componentDidUpdate()<br>
+  componentWillUnmount()<br>
++ Hooks時代はuseEffectでライフサイクルを表現<br>
+
+## 3種類のライフサイクル
+
+`Update`->`Unmount`->`Mount`->`Update`<br>
+
+### Mounting
+  コンポーネントが配置される(生まれる)期間<br>
+
+### Updating
+  コンポーネントが変更される(成長する)期間<br>
+
+### Unmounting
+  コンポーネントが破棄される(死ぬ)期間<br>
+
+|Mounting|Updating|Unmounting|
+|--------|--------|----------|
+|初期化|||
+|レンダリング|レンダリング||
+|マウント後の処理|||
+||更新後の処理||
+|||アンマウント前の処理|
+
+## 副作用(effect)フックを使おう
+
++ 関数コンポーネントではuseEffectという副作用フックを使う<br>
++ 副作用 = レンダリングによって引き起こされる処理<br>
+
+```
+const Counter = () => {
+    const [count, setCount] = useState(0)
+
+    const countUp = () => {
+        setCount(prevState => prevState + 1)
+    }
+
+    const countDown = () => {
+        setCount(prevState => prevState - 1)
+    }
+
+    useEffect(() => {
+        console.log("Current count is...", count)
+    })
+
+    return (
+        <div>
+            <p>現在のカウント数: {count}</p>
+            <button onClick={countUp}>up</button>
+            <button onClick={countDown}>down</button>
+        </div>
+    );
+};
+```
+
+## 第二引数の依存関係を理解する
+
++ useEffectの第二引数には配列を渡すことが可能<br>
++ 第二引数はdeps(dependencies)と呼ばれ、副作用が引き起こされるかどうかの依存関係となる<br>
+
+```
+// 毎回実行される
+useEffect(() => {
+    console.log("Current count is...", count)
+})
+
+// 初回レンダリング後のみ実行される
+useEffect(() => {
+    console.log("Current count is...", count)
+}, [])
+
+// triggerが変更される度に実行される
+useEffect(() => {
+    console.log("Current count is...", count)
+}, [trigger])
+
+// trigger1かtrigger2が変更される度に実行される
+useEffent(() => {
+    console.log("Current count is...", count)
+}, [trigger1, trigger2])
+```
+
+## クリーンアップを理解する
+
++ コンポーネント内で外部データベースを購読したい...<br>
++ useEffect内で購読処理を呼び出す<br>
++ 必要なくなったらクリーンアップ関数を使って掃除する<br>
+
+```
+const ToggleButton = () => {
+    const [open, setOpen] = useState(false)
+
+    const toggle = () => {
+        setOpen(prevState => !prevState)
+    }
+
+    useEffect(() => {
+        console.log('Current state is', open)
+        if (open) {
+            console.log('Subscribe database...')
+        }
+        return () => {
+            console.log('Unsubscribe database!')
+        }
+    })
+
+    return (
+        <button onClick={toggle}>
+            {open ? 'OPEN' : 'CLOSE'}
+        </button>
+    );
+};
+```
