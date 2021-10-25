@@ -723,3 +723,45 @@ const ToggleButton = () => {
     );
 };
 ```
+
+## useEffectのユースケース
+
++ APIやデータベースから非同期通信でデータを取得(fetch)する<br>
++ 特定の値が変わったらデータを再取得(refetch)する<br>
+
+## fetch APIを使おう
+
++ fetch APIは非同期通信で外部APIにアクセスできる<br>
++ GETメソッドであればURLを指定するだけ<br>
++ res.json()メソッドで取得したデータをオブジェクト型に変換<br>
+
+```
+fetch(`https://api.github.com/users/deatiger`)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    })
+    .catch(error => {
+        console.error(error)
+    })
+```
+
+## useEffect内で非同期通信
+
++ 初回レンダリング後に呼び出される<br>
++ 第二引数に指定した値が変わる度に再度呼び出される<br>
++ 取得した値をuseStateの更新関数に渡す<br>
+
+```
+useEffect(() => {
+    fetch(`https://api.github.com/users/${id}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            setName(data.name)
+        })
+        .catch(error => {
+            console.error(error)
+        })
+}, [id])
+```
